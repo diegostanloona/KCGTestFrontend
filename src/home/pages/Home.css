@@ -56,7 +56,6 @@
 
 .home__right-section button:hover{
 	background: #FFFFFF;
-	border: none;
 	color: rgb(47, 61, 131);
 }
 
@@ -92,7 +91,7 @@
 	}
 
 	.home__earth-background{
-		position: relative;
+		position: absolute;
 		top: 15vh;
 		width: 90vw;
 		height: 55vh;

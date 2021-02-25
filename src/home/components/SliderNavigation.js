@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import ReactSwipeEvents from 'react-swipe-events';
+
 import './SliderNavigation.css';
 
 const SliderNavigation = props => {
@@ -26,13 +28,38 @@ const SliderNavigation = props => {
         }    
     }
 
+    const swipeHandler = (e, originalX, originalY, endX, endY, deltaX, deltaY) => {
+        const Xmovement = Math.abs(originalX - endX);
+        const Ymovement = Math.abs(originalY - endY);
+        if (Xmovement > 1 || Ymovement > 1) {
+            if (Ymovement < Xmovement / 2) {
+                let direction;
+                if (originalX - endX > 25) {
+                    direction = 1;
+                           
+                } else if (originalX - endX < -25) {
+                    direction = -1;
+                }
+                props.onScroll(direction, () => {
+                    if (direction === 1) {
+                        setIndex(index === 3 ? 0 : index + 1);
+                    } else {
+                        setIndex(index === 0 ? 3 : index - 1);
+                    }
+                });
+            }
+        }
+    }
+
     return (
-        <ul className="slider-navigation">
-			<li className={index===0?"active":undefined}><span>.</span></li>
-			<li className={index===1?"active":undefined}><span>.</span></li>
-			<li className={index===2?"active":undefined}><span>.</span></li>
-			<li className={index===3?"active":undefined}><span>.</span></li>
-		</ul>
+        <ReactSwipeEvents onSwiped={swipeHandler}>
+            <ul className="slider-navigation">
+    			<li className={index===0?"active":undefined}><span>.</span></li>
+    			<li className={index===1?"active":undefined}><span>.</span></li>
+    			<li className={index===2?"active":undefined}><span>.</span></li>
+    			<li className={index===3?"active":undefined}><span>.</span></li>
+    		</ul>
+        </ReactSwipeEvents>
     );
 
 };
